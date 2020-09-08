@@ -1,0 +1,52 @@
+RESOURCES-GAME DATA QUERY
+
+SYNTAX:
+https://www.resources-game.ch/resapi/?q=QUERY_ID&f=OUTPUT_TYPE_ID&k=YOURAPIKEY&l=LANGUAGE&d=SHOW_LAST_X_DAYS
+
+Example (trade log query): https://www.resources-game.ch/resapi/?q=6&f=1&k=WRITEYOURAPIKEYHERE&l=en&d=20
+
+QUERY IDs PLAYER DATA:
+0=API-Credits left (query is for free)
+1=Your factories
+2=Your warehouses incl. credits
+3=Your specialbuildings
+4=Your HQ progress
+5=Your mines
+51=Your mines summarylist
+6=Your trade log
+7=Player info
+8=Your monetrary items
+9=Your attack log
+10=Mission list
+11=Your maintenance log
+
+QUERY IDs GENERAL DATA:
+1001=ID-List (items/factories/specialbuildings/mines)
+1002=Item production base data
+1003=Recycling base data
+1004=Factory upgrade data
+1005=Specialbuilding upgrade data
+1006=Market rates
+1007=Troups
+
+QUERY IDs OTHER GAME DATA:
+2001=Luxury auctions
+2002=Loan statistics
+
+OUTPUT TYPE IDs:
+0=CSV
+1=JSON
+
+LANGUAGE (Optional):
+de,en,ru,ja,in,es,fr
+Default val.: en
+
+SHOW LAST X DAYS (Optional):
+max. last 30 days.
+Default val.: 10
+
+Character encoding:
+utf8
+
+ANY PROBLEMS?
+support@resources-game.ch
