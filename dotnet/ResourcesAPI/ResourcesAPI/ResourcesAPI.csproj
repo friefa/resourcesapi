@@ -6,4 +6,8 @@
     <RepositoryUrl>https://github.com/friefa/resourcesapi</RepositoryUrl>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 </Project>
