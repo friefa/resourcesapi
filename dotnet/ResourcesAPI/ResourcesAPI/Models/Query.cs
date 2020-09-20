@@ -24,7 +24,7 @@ namespace ResourcesAPI.Models
         public Uri GetUri(string apiKey)
         {
             string format = "https://www.resources-game.ch/resapi/?q={0}&f={1}&k={2}&l={3}&d={4}";
-            return new Uri(string.Format(format, this.Type, this.OutputType, apiKey, this.Language.Identifier, this.HistoryDays));
+            return new Uri(string.Format(format, (int)this.Type, (int)this.OutputType, apiKey, this.Language.Identifier, (int)this.HistoryDays));
         }
     }
 }

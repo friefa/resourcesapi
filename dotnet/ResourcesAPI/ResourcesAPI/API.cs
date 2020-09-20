@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using Newtonsoft.Json.Linq;
 using ResourcesAPI.Models;
 using System.IO;
 using System.Net;
@@ -35,9 +35,8 @@ namespace ResourcesAPI
             Query query = new Query(QueryType.ApiCredits, OutputType.JSON, Language.German);
             string str = this.Request(query);
 
-            dynamic dyn = JsonConvert.DeserializeObject(str);
-
-            return dyn.creditsleft;
+            dynamic dyn = JArray.Parse(str);
+            return dyn[0]["creditsleft"];
         }
     }
 }
