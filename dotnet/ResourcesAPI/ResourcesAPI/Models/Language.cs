@@ -6,16 +6,16 @@ namespace ResourcesAPI.Models
 {
     public class Language
     {
-        public const string German = "de";
-        public const string English = "en";
-        public const string Russian = "ru";
-        public const string Japanese = "ja";
-        public const string Indonesian = "in";
-        public const string Spanish = "es";
-        public const string French = "fr";
+        public static readonly Language German = new Language("de");
+        public static readonly Language English = new Language("en");
+        public static readonly Language Russian = new Language("ru");
+        public static readonly Language Japanese = new Language("ja");
+        public static readonly Language Indonesian = new Language("in");
+        public static readonly Language Spanish = new Language("es");
+        public static readonly Language French = new Language("fr");
 
-        public string Identifier = English;
+        public string Identifier = default;
 
-        public Language(string identifier) { this.Identifier = identifier; }
+        public Language(string identifier = "en") { this.Identifier = identifier; }
     }
 }
