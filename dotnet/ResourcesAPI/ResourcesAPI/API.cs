@@ -55,7 +55,7 @@ namespace ResourcesAPI
         {
             get
             {
-                if (this.items.Equals(null))
+                if (this.items == null)
                 {
                     Query query = new Query(QueryType.ItemCollection, OutputType.JSON, this.Language);
                     string str = this.Request(query);
