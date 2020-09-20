@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using ResourcesAPI.Models;
+using ResourcesAPI.Models.Items;
 using System.IO;
 using System.Net;
 
@@ -9,10 +10,30 @@ namespace ResourcesAPI
     {
         public string Key { get; private set; }
 
+        public int Credits 
+        { 
+            get
+            {
+                Query query = new Query(QueryType.ApiCredits, OutputType.JSON, Language.English);
+                string str = this.Request(query);
+
+                dynamic dyn = JArray.Parse(str);
+                return dyn[0]["creditsleft"];
+            }
+        }
+
+        public Language Language
+        {
+            get;
+            set;
+        } = Language.English;
+
         public API(string key)
         {
             this.Key = key;
         }
+
+        private ItemCollection items = null;
 
         public string Request(Query query)
         {
@@ -30,13 +51,41 @@ namespace ResourcesAPI
             return str;
         }
 
-        public int GetApiCredits()
+        public ItemCollection Items
         {
-            Query query = new Query(QueryType.ApiCredits, OutputType.JSON, Language.German);
-            string str = this.Request(query);
+            get
+            {
+                if (this.items.Equals(null))
+                {
+                    Query query = new Query(QueryType.ItemCollection, OutputType.JSON, this.Language);
+                    string str = this.Request(query);
 
-            dynamic dyn = JArray.Parse(str);
-            return dyn[0]["creditsleft"];
+                    dynamic dyn = JArray.Parse(str);
+
+                    Item[] arr = new Item[dyn.Count];
+
+                    for (int i = 0; i < dyn.Count; i++)
+                    {
+                        string test = dyn[i]["itemID"];
+
+                        ushort id = ushort.Parse(test);
+                        string name = dyn[i]["name_" + this.Language.Identifier];
+                        string icon_url = dyn[i]["iconURL"];
+
+                        icon_url = icon_url.Replace(@"\/", "/");
+
+                        arr[i] = new Item(id, name, icon_url);
+                    }
+
+                    this.items = new ItemCollection(arr);
+                }
+
+                return this.items;
+            }
+            set
+            {
+                this.items = value;
+            }
         }
     }
 }

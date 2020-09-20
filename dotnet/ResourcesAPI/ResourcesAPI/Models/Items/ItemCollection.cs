@@ -68,7 +68,10 @@ namespace ResourcesAPI.Models.Items
 
         public IEnumerator<Item> GetEnumerator()
         {
-            return this.items.GetEnumerator() as IEnumerator<Item>;
+            for (int i = 0; i < this.items.Length; i++)
+            {
+                yield return this.items[i];
+            }
         }
 
         public bool Remove(Item item)
