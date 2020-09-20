@@ -29,5 +29,15 @@ namespace ResourcesAPI
 
             return str;
         }
+
+        public int GetApiCredits()
+        {
+            Query query = new Query(QueryType.ApiCredits, OutputType.JSON, Language.German);
+            string str = this.Request(query);
+
+            dynamic dyn = JsonConvert.DeserializeObject(str);
+
+            return dyn.creditsleft;
+        }
     }
 }
