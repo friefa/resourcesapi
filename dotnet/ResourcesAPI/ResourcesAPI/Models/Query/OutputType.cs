@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ResourcesAPI.Models
+﻿namespace ResourcesAPI.Models.Query
 {
     public enum OutputType
     {

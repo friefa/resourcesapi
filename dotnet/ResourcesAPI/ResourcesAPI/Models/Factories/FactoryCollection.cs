@@ -143,7 +143,7 @@ namespace ResourcesAPI.Models.Factories
                 for (int i = 0; i < count; i++)
                 {
                     bin.Write(item.UpgradeBaseElements[i].GetType().FullName);
-                    bin.Write(item.UpgradeBaseElements[i].UpgradeID);
+                    bin.Write(item.UpgradeBaseElements[i].ItemID);
                     bin.Write(item.UpgradeBaseElements[i].Quantity);
                 }
             }

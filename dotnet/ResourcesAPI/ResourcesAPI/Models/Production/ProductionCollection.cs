@@ -146,7 +146,7 @@ namespace ResourcesAPI.Models.Production
                 {
                     bin.Write(typeof(ProductionIngredient).FullName);
                     bin.Write(item.Ingredients[i].ItemID);
-                    bin.Write(item.Ingredients[i].QuantityPerCycle);
+                    bin.Write(item.Ingredients[i].Quantity);
                 }                
             }
 

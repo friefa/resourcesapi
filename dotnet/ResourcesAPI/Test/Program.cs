@@ -1,5 +1,5 @@
 ﻿using ResourcesAPI;
-using ResourcesAPI.Models;
+using ResourcesAPI.Localization;
 using ResourcesAPI.Models.Production;
 using System;
 using System.Collections;
@@ -10,8 +10,10 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            API api = new API("yourkeyhere");
-            api.Language = Language.German;
+            API api = new API("yourkeyhere")
+            {
+                Language = Language.German
+            };
 
             ProductionCollection collection = api.Productions;
 

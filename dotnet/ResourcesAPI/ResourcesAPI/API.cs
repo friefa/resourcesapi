@@ -1,8 +1,9 @@
 ﻿using Newtonsoft.Json.Linq;
-using ResourcesAPI.Models;
+using ResourcesAPI.Localization;
 using ResourcesAPI.Models.Factories;
 using ResourcesAPI.Models.Items;
 using ResourcesAPI.Models.Production;
+using ResourcesAPI.Models.Query;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -124,7 +125,7 @@ namespace ResourcesAPI
                         string _minUserLevel = dyn[i]["minUsrLvl"];
                         ushort minUserLevel = ushort.Parse(_minUserLevel);
 
-                        List<FactoryUpgradeBaseElement> elements = new List<FactoryUpgradeBaseElement>();
+                        List<FactoryUpgradeElement> elements = new List<FactoryUpgradeElement>();
                         string _buffer = null;
                         int count = 1;
 
@@ -138,7 +139,7 @@ namespace ResourcesAPI
                                 ushort upgradeId = ushort.Parse(_buffer);
                                 int upgradeQuantity = int.Parse(buffer);
 
-                                elements.Add(new FactoryUpgradeBaseElement(upgradeId, upgradeQuantity));
+                                elements.Add(new FactoryUpgradeElement(upgradeId, upgradeQuantity));
                             }
                             catch { _buffer = null; }
 
