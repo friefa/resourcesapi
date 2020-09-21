@@ -25,7 +25,7 @@ QUERY IDs GENERAL DATA:
 1002=Item production base data #implemented
 1003=Recycling base data #implemented
 1004=Factory upgrade data #implemented
-1005=Specialbuilding upgrade data
+1005=Specialbuilding upgrade data #implemented
 1006=Market rates
 1007=Troups
 
