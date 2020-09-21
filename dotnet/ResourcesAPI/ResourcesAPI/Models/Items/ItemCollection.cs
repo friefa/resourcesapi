@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
 namespace ResourcesAPI.Models.Items
 {
-    public class ItemCollection : ICollection<Item>
+    public class ItemCollection : ICollection<Item>, ISaveable
     {
         private Item[] items;
         
-        public ItemCollection(Item[] items)
+        public ItemCollection(Item[] items = default)
         {
             this.items = items;
         }
@@ -102,7 +101,7 @@ namespace ResourcesAPI.Models.Items
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.items.GetEnumerator();
+            return (this.items != null) ? this.items.GetEnumerator() : default;
         }
 
         public void Save(string filename)
@@ -124,7 +123,7 @@ namespace ResourcesAPI.Models.Items
             stream.Close();
         }
 
-        public static ItemCollection Load(string filename)
+        public void Load(string filename)
         {
             FileStream stream = new FileStream(filename, FileMode.Open, FileAccess.Read);
             BinaryReader bin = new BinaryReader(stream, Encoding.UTF8);
@@ -144,10 +143,8 @@ namespace ResourcesAPI.Models.Items
                     buffer[i] = new Item(id, name, icon_url);
                 }
 
-                return new ItemCollection(buffer);
+                this.items = buffer;
             }
-
-            return null;
         }
     }
 }
