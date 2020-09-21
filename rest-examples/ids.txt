@@ -6,7 +6,7 @@ https://www.resources-game.ch/resapi/?q=QUERY_ID&f=OUTPUT_TYPE_ID&k=YOURAPIKEY&l
 Example (trade log query): https://www.resources-game.ch/resapi/?q=6&f=1&k=WRITEYOURAPIKEYHERE&l=en&d=20
 
 QUERY IDs PLAYER DATA:
-0=API-Credits left (query is for free)
+0=API-Credits left (query is for free) #implemented
 1=Your factories
 2=Your warehouses incl. credits
 3=Your specialbuildings
@@ -21,10 +21,10 @@ QUERY IDs PLAYER DATA:
 11=Your maintenance log
 
 QUERY IDs GENERAL DATA:
-1001=ID-List (items/factories/specialbuildings/mines)
-1002=Item production base data
-1003=Recycling base data
-1004=Factory upgrade data
+1001=ID-List (items/factories/specialbuildings/mines) #implemented
+1002=Item production base data #implemented
+1003=Recycling base data #implemented
+1004=Factory upgrade data #implemented
 1005=Specialbuilding upgrade data
 1006=Market rates
 1007=Troups
