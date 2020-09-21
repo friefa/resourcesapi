@@ -2,6 +2,7 @@
 using ResourcesAPI.Models;
 using ResourcesAPI.Models.Factories;
 using ResourcesAPI.Models.Items;
+using ResourcesAPI.Models.Production;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -33,6 +34,8 @@ namespace ResourcesAPI
         private ItemCollection items = null;
 
         private FactoryCollection factories = null;
+
+        private ProductionCollection productions = null;
 
         public API(string key)
         {
@@ -154,6 +157,76 @@ namespace ResourcesAPI
             set
             {
                 this.factories = value;
+            }
+        }
+
+        public ProductionCollection Productions
+        {
+            get
+            {
+                if (this.productions == null)
+                {
+                    Query query = new Query(QueryType.ItemProductionBaseData, OutputType.JSON, this.Language);
+                    string str = this.Request(query);
+
+                    dynamic dyn = JArray.Parse(str);
+
+                    Production[] arr = new Production[dyn.Count];
+
+                    for (int i = 0; i < dyn.Count; i++)
+                    {
+                        string _itemId = dyn[i]["itemID"];
+                        ushort itemId = ushort.Parse(_itemId);
+
+                        string itemName = dyn[i]["itemName"];
+
+                        string _factoryId = dyn[i]["factoryID"];
+                        ushort factoryId = ushort.Parse(_factoryId);
+
+                        string factoryName = dyn[i]["factoryName"];
+
+                        string _baseOutputPerHour = dyn[i]["baseOutputPerHour"];
+                        int baseOutputPerHour = int.Parse(_baseOutputPerHour);
+
+                        string _outputPerCycle = dyn[i]["outputPerCycle"];
+                        int outputPerCycle = int.Parse(_outputPerCycle);
+
+                        string _creditsPerCycle = dyn[i]["creditsPerCycle"];
+                        int creditsPerCycle = int.Parse(_creditsPerCycle);
+
+                        List<ProductionIngredient> elements = new List<ProductionIngredient>();
+                        string _buffer = null;
+                        int count = 1;
+
+                        do
+                        {
+                            try
+                            {
+                                _buffer = dyn[i]["itemID" + count];
+                                string buffer = dyn[i][string.Format("item{0}QtyPerCycle", count)];
+
+                                ushort ingredientItemId = ushort.Parse(_buffer);
+                                int ingredientPerCycle = int.Parse(buffer);
+
+                                elements.Add(new ProductionIngredient(ingredientItemId, ingredientPerCycle));
+                            }
+                            catch { _buffer = null; }
+
+                            count++;
+                        }
+                        while (_buffer != null);
+
+                        arr[i] = new Production(itemId, itemName, factoryId, factoryName, baseOutputPerHour, outputPerCycle, creditsPerCycle, elements.ToArray());
+                    }
+
+                    this.productions = new ProductionCollection(arr);
+                }
+
+                return this.productions;
+            }
+            set
+            {
+                this.productions = value;
             }
         }
     }

@@ -1,5 +1,7 @@
 ﻿using ResourcesAPI;
+using ResourcesAPI.Models;
 using ResourcesAPI.Models.Factories;
+using ResourcesAPI.Models.Production;
 using System;
 using System.Collections;
 
@@ -10,8 +12,9 @@ namespace Test
         static void Main(string[] args)
         {
             API api = new API("yourkeyhere");
+            api.Language = Language.German;
 
-            FactoryCollection collection = api.Factories;
+            ProductionCollection collection = api.Productions;
 
             IEnumerator enumerator = collection.GetEnumerator();
 
@@ -19,9 +22,9 @@ namespace Test
 
             while (enumerator.MoveNext())
             {
-                Factory item = enumerator.Current as Factory;
+                Production item = enumerator.Current as Production;
 
-                Console.WriteLine(string.Format("{0}\t{1}\t{2}", item.FactoryID, item.FactoryName, item.ProductID));
+                Console.WriteLine(string.Format("{0}\t{1}\t{2}", item.ItemName, item.FactoryName, item.BaseOutputPerHour));
             }
 
             Console.ReadLine();
