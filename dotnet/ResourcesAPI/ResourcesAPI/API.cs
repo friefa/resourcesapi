@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
 using ResourcesAPI.Models;
+using ResourcesAPI.Models.Factories;
 using ResourcesAPI.Models.Items;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 
@@ -28,12 +30,14 @@ namespace ResourcesAPI
             set;
         } = Language.English;
 
+        private ItemCollection items = null;
+
+        private FactoryCollection factories = null;
+
         public API(string key)
         {
             this.Key = key;
         }
-
-        private ItemCollection items = null;
 
         public string Request(Query query)
         {
@@ -66,9 +70,9 @@ namespace ResourcesAPI
 
                     for (int i = 0; i < dyn.Count; i++)
                     {
-                        string test = dyn[i]["itemID"];
+                        string _id = dyn[i]["itemID"];
 
-                        ushort id = ushort.Parse(test);
+                        ushort id = ushort.Parse(_id);
                         string name = dyn[i]["name_" + this.Language.Identifier];
                         string icon_url = dyn[i]["iconURL"];
 
@@ -85,6 +89,71 @@ namespace ResourcesAPI
             set
             {
                 this.items = value;
+            }
+        }
+
+        public FactoryCollection Factories
+        {
+            get
+            {
+                if (this.factories == null)
+                {
+                    Query query = new Query(QueryType.FactoryUpgradeData, OutputType.JSON, this.Language);
+                    string str = this.Request(query);
+
+                    dynamic dyn = JArray.Parse(str);
+
+                    Factory[] arr = new Factory[dyn.Count];
+
+                    for (int i = 0; i < dyn.Count; i++)
+                    {
+                        string _id = dyn[i]["factoryID"];
+                        ushort id = ushort.Parse(_id);
+
+                        string name = dyn[i]["factoryName"];
+
+                        string _pid = dyn[i]["productID"];
+                        ushort pid = ushort.Parse(_pid);
+
+                        string _baseUpgradeCost = dyn[i]["baseUpgCost"];
+                        int baseUpgradeCost = int.Parse(_baseUpgradeCost);
+
+                        string _minUserLevel = dyn[i]["minUsrLvl"];
+                        ushort minUserLevel = ushort.Parse(_minUserLevel);
+
+                        List<FactoryUpgradeBaseElement> elements = new List<FactoryUpgradeBaseElement>();
+                        string _buffer = null;
+                        int count = 1;
+
+                        do
+                        {
+                            try 
+                            {   
+                                _buffer = dyn[i]["baseUpgItemID" + count];
+                                string buffer = dyn[i]["baseUpgItemQty" + count];
+
+                                ushort upgradeId = ushort.Parse(_buffer);
+                                int upgradeQuantity = int.Parse(buffer);
+
+                                elements.Add(new FactoryUpgradeBaseElement(upgradeId, upgradeQuantity));
+                            }
+                            catch { _buffer = null; }
+
+                            count++;
+                        }
+                        while (_buffer != null);
+
+                        arr[i] = new Factory(id, name, pid, baseUpgradeCost, minUserLevel, elements.ToArray());
+                    }
+
+                    this.factories = new FactoryCollection(arr);
+                }
+
+                return this.factories;
+            }
+            set
+            {
+                this.factories = value;
             }
         }
     }
