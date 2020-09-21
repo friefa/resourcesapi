@@ -49,6 +49,21 @@ namespace ResourcesAPI.Models.Items
             this.items = null;
         }
 
+        public Item GetItem(ushort id)
+        {
+            foreach (Item item in this.items)
+            {
+                if (item.ItemId == id) return item;
+            }
+
+            return default;
+        }
+
+        public bool Contains(ushort id)
+        {
+            return this.Contains(new Item(id, default, default));
+        }
+
         public bool Contains(Item item)
         {
             if (this.items != null & this.items.Length > 0)

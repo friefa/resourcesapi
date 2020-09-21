@@ -50,6 +50,21 @@ namespace ResourcesAPI.Models.Factories
             this.items = null;
         }
 
+        public Factory GetItem(ushort id)
+        {
+            foreach (Factory item in this.items)
+            {
+                if (item.FactoryID == id) return item;
+            }
+
+            return default;
+        }
+
+        public bool Contains(ushort id)
+        {
+            return this.Contains(new Factory(id, default, default, default, default));
+        }
+
         public bool Contains(Factory item)
         {
             if (this.items != null & this.items.Length > 0)
