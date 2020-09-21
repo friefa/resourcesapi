@@ -1,4 +1,4 @@
-﻿namespace ResourcesAPI.Models
+﻿namespace ResourcesAPI.Models.Interfaces
 {
     public interface ISaveable
     {

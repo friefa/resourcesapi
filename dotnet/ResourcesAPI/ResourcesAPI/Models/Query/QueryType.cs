@@ -1,4 +1,4 @@
-﻿namespace ResourcesAPI.Models
+﻿namespace ResourcesAPI.Models.Query
 {
     public enum QueryType
     {

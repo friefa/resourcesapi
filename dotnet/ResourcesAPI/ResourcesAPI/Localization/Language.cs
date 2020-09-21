@@ -1,4 +1,4 @@
-﻿namespace ResourcesAPI.Language
+﻿namespace ResourcesAPI.Localization
 {
     public class Language
     {
