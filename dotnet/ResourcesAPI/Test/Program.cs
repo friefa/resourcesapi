@@ -1,6 +1,5 @@
 ﻿using ResourcesAPI;
 using ResourcesAPI.Models;
-using ResourcesAPI.Models.Factories;
 using ResourcesAPI.Models.Production;
 using System;
 using System.Collections;
