@@ -1,4 +1,4 @@
-﻿using System;
+﻿using ResourcesAPI.Models.Interfaces;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -172,16 +172,16 @@ namespace ResourcesAPI.Models.Factories
                     ushort minimumUserLevel = bin.ReadUInt16();
                     int count = bin.ReadInt32();
 
-                    FactoryUpgradeBaseElement[] elements = new FactoryUpgradeBaseElement[count];
+                    FactoryUpgradeElement[] elements = new FactoryUpgradeElement[count];
 
                     for (int c = 0; c < count; c++)
                     {
-                        if (bin.ReadString().Equals(typeof(FactoryUpgradeBaseElement).FullName))
+                        if (bin.ReadString().Equals(typeof(FactoryUpgradeElement).FullName))
                         {
                             ushort upgradeId = bin.ReadUInt16();
                             int quantity = bin.ReadInt32();
 
-                            elements[c] = new FactoryUpgradeBaseElement(upgradeId, quantity);
+                            elements[c] = new FactoryUpgradeElement(upgradeId, quantity);
                         }
                     }
 

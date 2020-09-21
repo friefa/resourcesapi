@@ -16,9 +16,9 @@ namespace ResourcesAPI.Models.Factories
 
         public ushort MinimumUserLevel { get; private set; }
 
-        public FactoryUpgradeBaseElement[] UpgradeBaseElements { get; private set; }
+        public FactoryUpgradeElement[] UpgradeBaseElements { get; private set; }
 
-        public Factory(ushort factoryId, string factoryName, ushort productId, int baseUpgradeCost, ushort minimumUserLevel, params FactoryUpgradeBaseElement[] factoryUpgradeBaseElements)
+        public Factory(ushort factoryId, string factoryName, ushort productId, int baseUpgradeCost, ushort minimumUserLevel, params FactoryUpgradeElement[] factoryUpgradeBaseElements)
         {
             this.FactoryID = factoryId;
             this.FactoryName = factoryName;

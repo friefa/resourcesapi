@@ -1,19 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ResourcesAPI.Models.Basic;
 
 namespace ResourcesAPI.Models.Production
 {
-    public class ProductionIngredient
+    public class ProductionIngredient : UpgradeElement
     {
-        public ushort ItemID { get; private set; }
-
-        public int QuantityPerCycle { get; private set; }
-
-        public ProductionIngredient(ushort id, int quantityPerCylce)
-        {
-            this.ItemID = id;
-            this.QuantityPerCycle = quantityPerCylce;
-        }
+        public ProductionIngredient(ushort itemId, int quantityPerCylce) : base(itemId, quantityPerCylce) { }
     }
 }
