@@ -4,6 +4,8 @@ using ResourcesAPI.Models.Factories;
 using ResourcesAPI.Models.Items;
 using ResourcesAPI.Models.Production;
 using ResourcesAPI.Models.Query;
+using ResourcesAPI.Models.Recycling;
+using ResourcesAPI.Models.Specialbuilding;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -37,6 +39,10 @@ namespace ResourcesAPI
         private FactoryCollection factories = null;
 
         private ProductionCollection productions = null;
+
+        private RecyclingCollection recyclings = null;
+
+        private SpecialBuildingCollection specialbuildings = null;
 
         public API(string key)
         {
@@ -228,6 +234,124 @@ namespace ResourcesAPI
             set
             {
                 this.productions = value;
+            }
+        }
+
+        public RecyclingCollection Recyclings
+        {
+            get
+            {
+                if (this.recyclings == null)
+                {
+                    Query query = new Query(QueryType.RecyclingBaseData, OutputType.JSON, this.Language);
+                    string str = this.Request(query);
+
+                    dynamic dyn = JArray.Parse(str);
+
+                    Recycling[] arr = new Recycling[dyn.Count];
+
+                    for (int i = 0; i < dyn.Count; i++)
+                    {
+                        string _itemId = dyn[i]["itemID"];
+                        ushort itemId = ushort.Parse(_itemId);
+
+                        string itemName = dyn[i]["itemName"];
+
+                        string _inputQuantity = dyn[i]["inputQty"];
+                        int inputQuantity = int.Parse(_inputQuantity);
+
+                        List<RecyclingOutput> elements = new List<RecyclingOutput>();
+                        string _buffer = null;
+                        int count = 1;
+
+                        do
+                        {
+                            try
+                            {
+                                _buffer = dyn[i]["outputRes" + count];
+                                string buffer = dyn[i]["outputQty" + count];
+
+                                ushort outputItemId = ushort.Parse(_buffer);
+                                int outputQuantity = int.Parse(buffer);
+
+                                elements.Add(new RecyclingOutput(outputItemId, outputQuantity));
+                            }
+                            catch { _buffer = null; }
+
+                            count++;
+                        }
+                        while (_buffer != null);
+
+                        arr[i] = new Recycling(itemId, itemName, inputQuantity, elements.ToArray());
+                    }
+
+                    this.recyclings = new RecyclingCollection(arr);
+                }
+
+                return this.recyclings;
+            }
+            set
+            {
+                this.recyclings = value;
+            }
+        }
+
+        public SpecialBuildingCollection Specialbuildings
+        {
+            get
+            {
+                if (this.recyclings == null)
+                {
+                    Query query = new Query(QueryType.RecyclingBaseData, OutputType.JSON, this.Language);
+                    string str = this.Request(query);
+
+                    dynamic dyn = JArray.Parse(str);
+
+                    Specialbuilding[] arr = new Specialbuilding[dyn.Count];
+
+                    for (int i = 0; i < dyn.Count; i++)
+                    {
+                        string _itemId = dyn[i]["specBuildID"];
+                        ushort itemId = ushort.Parse(_itemId);
+
+                        string itemName = dyn[i]["specBuildName"];
+
+                        string _baseUpgradeCost = dyn[i]["baseUpgCost"];
+                        int baseUpgradeCost = int.Parse(_baseUpgradeCost);
+
+                        List<SpecialbuildingUpgradeElement> elements = new List<SpecialbuildingUpgradeElement>();
+                        string _buffer = null;
+                        int count = 1;
+
+                        do
+                        {
+                            try
+                            {
+                                _buffer = dyn[i]["baseUpgItemID" + count];
+                                string buffer = dyn[i]["baseUpgItemQty" + count];
+
+                                ushort upgradeItemId = ushort.Parse(_buffer);
+                                int upgradeQuantity = int.Parse(buffer);
+
+                                elements.Add(new SpecialbuildingUpgradeElement(upgradeItemId, upgradeQuantity));
+                            }
+                            catch { _buffer = null; }
+
+                            count++;
+                        }
+                        while (_buffer != null);
+
+                        arr[i] = new Specialbuilding(itemId, itemName, baseUpgradeCost, elements.ToArray());
+                    }
+
+                    this.specialbuildings = new SpecialBuildingCollection(arr);
+                }
+
+                return this.specialbuildings;
+            }
+            set
+            {
+                this.specialbuildings = value;
             }
         }
     }
