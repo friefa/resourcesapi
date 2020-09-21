@@ -181,10 +181,13 @@ namespace ResourcesAPI.Models.Production
 
                     for (int c = 0; c < count; c++)
                     {
-                        ushort ingredientItemId = bin.ReadUInt16();
-                        int ingredientQuantityPerCycle = bin.ReadInt32();
+                        if (bin.ReadString().Equals(typeof(ProductionIngredient).FullName))
+                        {
+                            ushort ingredientItemId = bin.ReadUInt16();
+                            int ingredientQuantityPerCycle = bin.ReadInt32();
 
-                        ingredients[c] = new ProductionIngredient(ingredientItemId, ingredientQuantityPerCycle);
+                            ingredients[c] = new ProductionIngredient(ingredientItemId, ingredientQuantityPerCycle);
+                        }                        
                     }
 
                     buffer[i] = new Production(itemId, itemName, factoryId, factoryName, baseOutputPerHour, outputPerCycle, creditsPerCycle, ingredients);
